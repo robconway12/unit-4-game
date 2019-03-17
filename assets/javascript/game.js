@@ -1,20 +1,16 @@
 $(document).ready(function(){
 
-    // === RANDOM NUMBER ===  Select a random number and map it to the random number field
+    // === Select a random number and map it to the random number field
     
     function anyNumber(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
       };
+    
+    // === Generate random numbers
 
-    var counter = 0;
     var targetNumber = anyNumber(19,120);
-
-    $( '#randomNumber' ).text(targetNumber);
-
-    // === GEMS ===
-
     var amethyst = anyNumber(1,12);
     var emerald = anyNumber(1,12);
     var diamond = anyNumber(1,12);
@@ -22,51 +18,79 @@ $(document).ready(function(){
 
     console.log('amethyst: ' + amethyst + ', emerald: ' + emerald + ', diamond: ' + diamond + ', ruby: ' + ruby);
 
+    $( '#randomNumber' ).text(targetNumber);
+    
+    // === Declare counter variables and start at zero
+
+    var counter = 0;
+    var wins = 0;
+    var losses = 0;
+
     // When user clicks on each gem, the gem value will be added to the counter
 
     $( '#amethyst' ).click(function() {
-        let add = parseInt(counter) + parseInt(amethyst);
+        let add = counter + amethyst;
         counter = add;
         console.log(counter);
         $( '#totalScore' ).text(counter);
+        winorLose();
         });
 
     $( '#ruby' ).click(function() {
-        let add = parseInt(counter) + parseInt(ruby);
+        let add = counter + ruby;
         counter = add;
         console.log(counter);
         $( '#totalScore' ).text(counter);
+        winorLose();
         });
 
     $( '#diamond' ).click(function() {
-        let add = parseInt(counter) + parseInt(diamond);
+        let add = counter + diamond;
         counter = add;
         console.log(counter);
         $( '#totalScore' ).text(counter);
+        winorLose();
         });
 
     $( '#emerald' ).click(function() {
-        let add = parseInt(counter) + parseInt(emerald);
+        let add = counter + emerald;
         counter = add;
         console.log(counter);
         $( '#totalScore' ).text(counter);
+        winorLose();
         });
 
-    
-    //   var crystalValue = ($(this).attr("data-crystalvalue"));
-    //   crystalValue = parseInt(crystalValue);
-    // We then add the crystalValue to the user's "counter" which is a global variable.
-    // Every click, from every crystal adds to the global counter.
-    //   counter += crystalValue;
+    // === Target is reached or exceeded.
 
-    // All of the same game win-lose logic applies. So the rest remains unchanged.
-    //   alert("New score: " + counter);
+    function winorLose () {
+        if (counter === targetNumber) {
+            wins++;
+            $('#totalWins').text(wins);
+            alert("You win!  (" + counter + ")");
+            reset();
+        }
 
-    if (counter === targetNumber) {
-    alert("You win!");
+        else if (counter >= targetNumber) {
+            losses++;
+            $('#totalLosses').text(losses);
+            alert("You lose!!  (" + counter + ")");
+            reset();
+        };
+        
     }
 
-    else if (counter >= targetNumber) {
-    alert("You lose!!");
-    }
+
+        // Game resets counter back to zero and generates new numbers
+
+    function reset() {
+        targetNumber = anyNumber(19,120);
+        amethyst = anyNumber(1,12);
+        emerald = anyNumber(1,12);
+        diamond = anyNumber(1,12);
+        ruby = anyNumber(1,12);
+        console.log('amethyst: ' + amethyst + ', emerald: ' + emerald + ', diamond: ' + diamond + ', ruby: ' + ruby);
+        $( '#randomNumber' ).text(targetNumber);
+        counter = 0;
+        $( '#totalScore' ).text(counter);
+    };
 });
